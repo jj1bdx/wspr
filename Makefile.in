@@ -17,7 +17,7 @@ CPPFLAGS += ${DEFS} -I.
 # WSPR specific Fortran flags
 FFLAGS += -fbounds-check
 
-all:	wspr wsprcode fmt fmtave fcal fmeasure wspr0 hftoa ccf wwv
+all:	wspr wsprcode fmt fmtave fcal fmeasure hftoa ccf wwv
 
 build:	wspr
 
@@ -118,8 +118,8 @@ fcal: fcal.f90
 fmeasure: fmeasure.f90
 	$(FC) -o fmeasure fmeasure.f90
 
-wspr0:	$(OBJS1)
-	$(FC) -o wspr0 $(LDFLAGS) $(FFLAGS) $(OBJS1) -lportaudio -lfftw3f
+#wspr0:	$(OBJS1)
+#	$(FC) -o wspr0 $(LDFLAGS) $(FFLAGS) $(OBJS1) -lportaudio -lfftw3f
 
 OBJS4 = hftoa.o write_wav.o sound.o fil1.o averms.o getutc.o gmtime2.o
 
@@ -168,7 +168,7 @@ deb: wspr.py WsprMod/w.so WsprMod/g.py WsprMod/__init__.py \
 clean:
 	${RM} -f *.o *.pyc *.pyo WsprMod/*.pyc WsprMod/*.pyo \
 	    WsprMod/w.so WsprMod/*.so w.so *~ \
-	    wsprcode fmt fmtave fcal fmeasure wspr0
+	    wsprcode fmt fmtave fcal fmeasure 
 	${RM} -rf build/
 
 distclean:
