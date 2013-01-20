@@ -3,8 +3,12 @@
 * WSPR by Joe Taylor, K1JT: <http://physics.princeton.edu/pulsar/K1JT/wspr.html>
 * Based on WSPR 4.0 r2963
 * SVN source URL: `svn://svn.berlios.de/wsjt/branches/wspr` 
-* Windows-specific `.dll` and `.exe` files removed
 * Edited and tested by Kenji Rikitake, JJ1BDX
+
+## Notes
+
+* Windows-specific `.dll` and `.exe` files removed
+* `wspr0` building script removed from `Makefile.in`
 
 ## Required libraries/tools to build
 
@@ -15,7 +19,7 @@
 
 ## Building procedure
 
-    make distclean clean
+    make clean distclean
     ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
     make
 
