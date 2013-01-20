@@ -1,0 +1,7 @@
+fmt.ini
+WSPR.INI
+pixmap.dat
+wspr.log
+*.dll
+*.exe
+*.a
