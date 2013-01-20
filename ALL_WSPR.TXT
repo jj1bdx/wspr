@@ -1,0 +1,6 @@
+130120 0916  10.140282  Transmitting on   30 m: JO3FUO PM74 37        
+130120 0920  11 -19 -0.8  10.140223  JQ2WDO PM95 37          0     1    0
+130120 0920   8 -21 -1.2  10.140236  JA2GRC PM74 37         -1     8    0
+130120 0926  10.140282  Transmitting on   30 m: JO3FUO PM74 37        
+130120 0928  10.140282  Transmitting on   30 m: JO3FUO PM74 37        
+130120 0936  10.140282  Transmitting on   30 m: JO3FUO PM74 37        

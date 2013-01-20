@@ -1,0 +1,87 @@
+To:      QRSS Knights and Friends
+From:    Joe Taylor, K1JT
+Subject: New software for MEPT
+Date:    March 10, 2008
+
+About two weeks ago Murray Greenman, ZL1BPU, wrote to me suggesting
+that I consider adding a mode optimized for MEPT to my software
+package WSJT.  I expressed interest in the idea, and we exchanged a
+few emails about possible specifications.  Then I sat down and wrote
+out some detailed specs, and finally got busy to write a bare-bones
+program implementing the new mode.
+
+I write now to let you know that an early release of the program is
+ready for testing.  The program's name is WSPR (pronounced "whisper",
+which seems appropriate for estremely weak signals).  The name of the
+digital protocol implemented in WSPR is MEPT_JT, where the letters
+stand for "Manned Experimental Propagation Tests, by K1JT".
+
+At present WSPR is a stand-alone executable, independent of WSJT.  It
+is functional for both transmitting and receiving, but it has no
+frills -- no graphics, no GUI, etc.  It is executed from a Windows
+command prompt.  Like WSJT, WSPR uses a computer sound card to
+generate audio tones to modulate an SSB transceiver operating on upper
+sideband.  In receive mode the sound card digitizes audio from the
+transceiver.  The program scans a 200 Hz passband (the "QRSS window")
+looking for MEPT_JT signals, and decodes them.  Basic operating
+instructions for the initial release can be found in the file
+WSPR_Instructions.TXT at
+http://physics.princeton.edu/pulsar/K1JT/WSPR_Instructions.TXT , and
+the program itself can be downloaded from
+http://physics.princeton.edu/pulsar/K1JT/WSPR.EXE .
+
+
+Basic specifications of the MEPT_JT mode are as follows:
+
+1.  Transmitted message: callsign + 4-character-locator + dBm 
+    Example: "K1JT FN20 30"
+
+2.  Message length after lossless compression: 28 bits for callsign,
+    15 for locator, 7 for power level ==> 50 bits total.
+
+3.  Forward error correction (FEC): long-constraint convolutional 
+    code, K=32, r=1/2.
+
+4.  Number of channel symbols: nsym = (50+K-1)*2 = 162.
+
+5.  Keying rate: 12000/8192 = 1.46 baud.  
+
+6.  Modulation: continuous phase 4-FSK.  Tone separation 1.46 Hz.
+
+7.  Synchronization: 162-bit pseudo-random sync vector.
+
+8.  Data structure: each channel symbol conveys one sync bit and one
+    data bit.
+
+9.  Duration of transmission: 162*8192/12000 = 110.6 s.  
+
+10. Transmissions start two seconds into an even UTC minute: i.e., at
+    hh:00:02, hh:02:02, ...
+
+10. Occupied bandwidth: about 6 Hz
+
+11. Minimum S/N for reception: around -27 dB on the WSJT scale (2500
+    Hz reference bandwidth).  
+
+You can run Argo, Spectran, or WSJT at the same time as WSPR, in
+order to provide a waterfall spectral display.
+
+In normal operation WSPR displays information every two minutes and
+is silent otherwise.  In transmit mode in prints a single line when a
+new transmission starts.  In receive mode the program looks for all
+detectable MEPT_JT signals in a 200 Hz passband, decodes them, and
+displays the results.  If nothing is decoded, nothing will be printed.
+In T/R mode the program alternates in a randomized way between
+transmit and receive sequences.
+
+Like JT65, MEPT_JT includes very efficient data compression and strong
+forward error correction.  Received messages are nearly always exactly
+the same as the transmitted message, or else they are left blank.
+
+Version 0.3 of MEPT_JT is functional -- and extremely sensitive -- but
+the user interface is rather spartan.  Suggestions for improvements
+will be most welcome!
+
+Please email all suggestions to k1jt at arrl dot net.
+
+	    -- 73, Joe, K1JT

@@ -1,0 +1,189 @@
+ 1000  exit
+ 1001  aplay -l
+ 1002  sudo apt-get install python-dev gfortran python-pmw python-numpy portaudio19-dev libsamplerate0-dev python-imaging-tk cl-fftw3
+ 1003  sudo apt-get install subversion
+ 1004  ls
+ 1005  cd src
+ 1006  svn co http://svn.berlios.de/svnroot/repos/wsjt/branches/wspr
+ 1007  cd wspr
+ 1008  ./configure --with-portaudio-include-dir=/usr/include
+ 1009  ls /usr/lib
+ 1010  ls /usr/lib/x86_64-linux-gnu
+ 1011  ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1012  make
+ 1013  sudo apt-get install python2.7-dev
+ 1014  ./configure
+ 1015  ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1016  sudo apt-get install portaudio19-dev
+ 1017  sudo apt-get install subversion python2.7-dev python-numpy python-imaging-tk python-pmw \ libportaudio2 portaudio19-dev libsamplerate0-dev gfortran cl-fftw3 python-dev
+ 1018  sudo apt-get install subversion python2.7-dev python-numpy python-imaging-tk python-pmw libportaudio2 portaudio19-dev libsamplerate0-dev gfortran cl-fftw3 python-dev
+ 1019  ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1020  make clean
+ 1021  make
+ 1022  sudo updatedb
+ 1023  locate libportaudio.so
+ 1024  make clean
+ 1025  make
+ 1026  sudo apt-get install g95
+ 1027  make
+ 1028  pwd
+ 1029  less wspr0.f90
+ 1030  rvim -X wspr0.f90
+ 1031  sudo apt-get install ack-grep
+ 1032  ack-grep wspr0init
+ 1033  make
+ 1034  make wspr0init.o
+ 1035  make
+ 1036  pushd .
+ 1037  cd ~/xfer
+ 1038  sudo dpkg -i g95-x86_64.deb
+ 1039  g95 -v
+ 1040  popd
+ 1041  make clean
+ 1042  make
+ 1043  make distclean
+ 1044  ./configure
+ 1045  ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1046  ./configure --help
+ 1047  env F77=g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1048  reahsh
+ 1049  rehash
+ 1050  env F77=g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1051  sudo apt-get remove gfortran
+ 1052  env F77=g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1053  make
+ 1054  gmake clean
+ 1055  make clean
+ 1056  make
+ 1057  make clean
+ 1058  make distclean
+ 1059  env F77=g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1060  make
+ 1061  ls
+ 1062  make clean
+ 1063  make distclean
+ 1064  ls
+ 1065  pushd .
+ 1066  cd ~/xfer
+ 1067  ls
+ 1068  rm g95-x86_64
+ 1069  rm g95-x86_64.deb
+ 1070  tar zpxvf g95-x86_64-64-linux.tgz
+ 1071  cd g95-install
+ 1072  ls
+ 1073  less INSTALL
+ 1074  ln -s $PWD/g95-install/bin/*g95* ~/bin/g95
+ 1075  ln -s $PWD/g95-install/bin/g95 ~/bin/g95
+ 1076  rehash
+ 1077  ls
+ 1078  cd ..
+ 1079  ls
+ 1080  cd ..
+ 1081  ls
+ 1082  cd src
+ 1083  ls
+ 1084  cd wspr
+ 1085  make clean
+ 1086  popd
+ 1087  ls
+ 1088  env F77=g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1089  make
+ 1090  ls
+ 1091  which g95
+ 1092  sudo dpkg --help
+ 1093  sudo dpkg -r g95
+ 1094  rehash
+ 1095  g95
+ 1096  which g95
+ 1097  rehash
+ 1098  ls
+ 1099  ls ~/bin
+ 1100  ls ~/bin/g95
+ 1101  rehash
+ 1102  which g95
+ 1103  env F77=/home/kenji/bin/g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1104  pushd .
+ 1105  cd
+ 1106  env
+ 1107  g95
+ 1108  rehash
+ 1109  cd ~/bin
+ 1110  ls
+ 1111  ls -ltr
+ 1112  ./g95
+ 1113  ls
+ 1114  rm g95
+ 1115  ls
+ 1116  cd xfer
+ 1117  ls
+ 1118  cd
+ 1119  cd xfer
+ 1120  ls
+ 1121  mv g95-install ~/bin
+ 1122  ls
+ 1123  cd ~/bin
+ 1124  ls
+ 1125  ln -s /home/kenji/bin/g95-install/bin/g95 .
+ 1126  ls -ltr
+ 1127  g95
+ 1128  rehash
+ 1129  g95
+ 1130  ls
+ 1131  rm g95
+ 1132  ln -s /home/kenji/bin/g95-install/bin/x86_64-unknown-linux-gnu-g95 g95
+ 1133  ls
+ 1134  rehash
+ 1135  g95
+ 1136  cd
+ 1137  ls
+ 1138  cd src
+ 1139  popd
+ 1140  env F77=/home/kenji/bin/g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1141  make
+ 1142  ls
+ 1143  make clean
+ 1144  make distclean
+ 1145  ls
+ 1146  rehash
+ 1147  env F77=/usr/bin/g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1148  make
+ 1149  rehash
+ 1150  make distclean
+ 1151  env F77=/usr/bin/g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1152  make
+ 1153  sudo updatedb
+ 1154  mnake
+ 1155  make
+ 1156  sudo dpkg -r g95
+ 1157  ls
+ 1158  sudo apt-get remove subversion gfortran cl-fftw3
+ 1159  env F77=/usr/bin/g95 ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1160  ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
+ 1161  make
+ 1162  ls
+ 1163  grep wspr0init Makefile
+ 1164  vim -X Makefile
+ 1165  ack-grep wspr0init
+ 1166  vim -X Makefile
+ 1167  svn update
+ 1168  vim -X Makefile
+ 1169  make
+ 1170  ls
+ 1171  ./wspr
+ 1172  ./rigctl -m 361 -r /dev/ttyUSB0 -s 19200 -C data_bits=8 -C stop_bits=2 -C serial_handshake=None F 7038600
+ 1173  ls
+ 1174  make rigctl
+ 1175  ls
+ 1176  ./wspr
+ 1177  man rigctl
+ 1178  ls
+ 1179  less Makefile
+ 1180  make all
+ 1181  ls
+ 1182  ls -ltr
+ 1183  ./wspr
+ 1184  rehash
+ 1185  ./wspr
+ 1186  fc -l
+ 1187  fc -l 1000
+ 1188  pwd

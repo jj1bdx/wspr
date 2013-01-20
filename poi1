@@ -1,0 +1,4 @@
+    sudo apt-get install \
+        python-dev gfortran python-pmw python-numpy portaudio19-dev \
+        libsamplerate0-dev python-imaging-tk cl-fftw3 subversion \
+        libhamlib-dev libhamlib-util2

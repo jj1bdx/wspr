@@ -1,0 +1,148 @@
+#Makefile for Windows and MinGW
+CC = /mingw/bin/gcc
+FC = /mingw/bin/g95
+
+FFLAGS = -O2 -fbounds-check -Wall -Wno-precision-loss
+CFLAGS = -I. -fbounds-check
+
+# Default rules
+%.o: %.c
+	${CC} ${CFLAGS} -c $<
+%.o: %.f
+	${FC} ${FFLAGS} -c $<
+%.o: %.F
+	${FC} ${FFLAGS} -c $<
+%.o: %.f90
+	${FC} ${FFLAGS} -c $<
+%.o: %.F90
+	${FC} ${FFLAGS} -c $<
+
+all:    WSPR.EXE fmt.exe fmtave.exe fcal.exe fmeasure.exe wspr0.exe
+
+OBJS1 = wspr0.o wspr0_tx.o sound.o ptt.o gmtime2.o wfile5.o \
+	cs_stubs.o genmept.o wqencode.o wqdecode.o inter_mept.o \
+	encode232.o gran.o packcall.o packgrid.o pack50.o packpfx.o \
+	hash.o unpackcall.o unpackgrid.o unpackpfx.o unpack50.o \
+	grid2deg.o deg2grid.o nhash.o nchar.o wspr0_rx.o getrms.o \
+	mept162.o mix162.o spec162.o sync162.o twkfreq.o \
+	decode162.o getutc.o set.o xfft.o four2a.o flat3.o ps162.o \
+	pctile.o fchisq.o db.o fano232.o sort.o ssort.o ccf2.o \
+	wspr0init.o
+
+OBJS2C = sound.o gmtime2.o nhash.o
+
+F2PYONLY = wspr1 getfile paterminate ftn_quit audiodev
+
+SRCS2F90 = wspr1.f90 wspr2.f90 decode.f90 getutc.f90 gran.f90 rx.f90 \
+	startdec.f90 startrx.f90 starttx.f90 tx.f90 getfile.f90 \
+	paterminate.f90 wqencode.f90 chklevel.f90 genwspr.f90 \
+	wqdecode.f90 hash.f90 packname.f90 packtext2.f90 \
+	unpackname.f90 unpacktext2.f90 audiodev.f90 msgtrim.f90 \
+	packpfx.f90 packprop.f90 unpackpfx.f90 unpackprop.f90 \
+	thnix.f90 fil1.f90 iqdemod.f90 phasetx.f90 speciq.f90 \
+	xcor162.f90 rxtxcoord.f90 mept162.f90 getrms.f90 mix162.f90
+
+SRCS2F77 = wfile5.f \
+	sync162.f decode162.f spec162.f set.f xfft.f \
+	ps162.f pctile.f peakup.f db.f \
+	inter_mept.f fano232.f unpack50.f unpackcall.f \
+	unpackgrid.f four2a.f flat3.f sort.f deg2grid.f \
+	ssort.f packcall.f packgrid.f pack50.f \
+	encode232.f nchar.f grid2deg.f gencwid.f morse.f \
+	fchisq.f ccf2.f twkfreq.f azdist.f geodist.f
+
+SRCS2C = ptt.c start_threads.c padevsub.c fthread.c
+
+OBJS3 = WSPRcode.o deg2grid.o pack50.o packcall.o packgrid.o \
+	unpack50.o unpackcall.o unpackgrid.o nchar.o \
+	grid2deg.o wqencode.o wqdecode.o nhash.o hash.o \
+	packname.o unpackname.o packtext2.o unpacktext2.o \
+	encode232.o inter_mept.o packprop.o unpackprop.o \
+	packpfx.o unpackpfx.o cs_stubs.o fano232.o
+
+WSPRcode.exe: $(OBJS3)
+	$(FC) -o WSPRcode.exe $(OBJS3)
+
+WSPR.EXE: WsprMod/w.pyd wspr.spec
+	c:/python27/python c:/python27/pyinstaller-1.5.1/Build.py wspr.spec
+	mv dist/wspr.exe WSPR.EXE
+
+WsprMod/w.pyd: $(OBJS2C) $(SRCS2F90) $(SRCS2F77) $(SRCS2C) acom1.f90
+	c:/python27/python c:/python27/scripts/f2py.py -c -I. \
+	--quiet --fcompiler=g95 \
+	--opt="-fbounds-check -ftrace=full -O2 -cpp -DUSE_PORTAUDIO" \
+	--compiler=mingw32 \
+	$(OBJS2C) \
+	libportaudio.a libpthreadGC2.a libfftw3f_win.a -lwinmm \
+	-m w \
+	only: $(F2PYONLY) : \
+	$(SRCS2F90) $(SRCS2F77) $(SRCS2C)
+	mv w.pyd WsprMod/w.pyd
+
+wspr.spec: wspr.py WsprMod/g.py WsprMod/options.py WsprMod/palettes.py \
+	WsprMod/advanced.py WsprMod/iq.py WsprMod/hopping.py
+	c:/python27/python c:/python27/pyinstaller-1.5.1/makespec.py --icon \
+	  wsjt.ico --tk --onefile wspr.py
+
+fmt.exe: fmt.f90 fil1.f90 four2a.f peakup.f db.f sound.o 
+	$(FC) -o fmt.exe -ftrace=full fmt.f90 fil1.f90 four2a.f peakup.f db.f \
+	sound.o libportaudio.a c:\MinGW\lib\libwinmm.a libfftw3f_win.a
+
+fmtave.exe: fmtave.f90
+	$(FC) -o fmtave.exe fmtave.f90
+
+fcal.exe: fcal.f90
+	$(FC) -o fcal.exe fcal.f90
+
+fmeasure.exe: fmeasure.f90
+	$(FC) -o fmeasure.exe fmeasure.f90
+
+wspr0.exe: $(OBJS1)
+	$(FC) -o wspr0 $(FFLAGS) $(OBJS1) libportaudio.a \
+	   c:\MinGW\lib\libwinmm.a libfftw3f_win.a
+
+OBJS4 = hftoa.o write_wav.o sound.o averms.o fil1.o getutc.o gmtime2.o
+
+hftoa.exe: $(OBJS4)
+	$(FC) -o hftoa.exe $(FFLAGS) $(OBJS4) libportaudio.a \
+	   c:\MinGW\lib\libwinmm.a
+
+OBJS5 = ccf.o read_wav.o averms.o four2a.o thnix_stub.o db.o ffa.o \
+        fold1pps.o resample.o
+
+ccf.exe: $(OBJS5)
+	$(FC) -o ccf.exe $(FFLAGS) $(OBJS5) libfftw3f_win.a libsamplerate.a
+
+OBJS6 = wwv.o read_wav.o averms.o db.o fold1pps.o ffa.o getutc.o \
+	gmtime2.o sound.o resample.o calobs.o clean.o four2a.o \
+	pctile.o sort.o ssort.o
+
+wwv.exe: $(OBJS6)
+	$(FC) -o wwv.exe $(FFLAGS) $(OBJS6) libportaudio.a \
+	   c:\MinGW\lib\libwinmm.a libsamplerate.a libfftw3f_win.a
+
+OBJS7 = qth.o grid2deg.o geodist.o
+
+qth.exe: $(OBJS7)
+	$(FC) -o qth.exe $(FFLAGS) $(OBJS7)
+
+OBJS8 = ddelay.o grid2deg.o geodist.o
+
+ddelay.exe: $(OBJS8)
+	$(FC) -o ddelay.exe $(FFLAGS) $(OBJS8)
+
+sound.o: sound.c
+	$(CC) -c sound.c
+gmtime2.o: gmtime2.c
+	$(CC) -c -DWin32=1 gmtime2.c
+
+pkg: WSPR.EXE wspr.iss 
+	"c:/Program Files/Inno Setup 5/iscc" wspr.iss
+
+
+.PHONY : clean
+
+clean:
+	rm -f *.o WSPR.EXE WsprMod/w.pyd wspr.spec Output/setup.exe \
+	  fmt.exe fmtave.exe fcal.exe fmeasure.exe wspr0.exe hftoa.exe \
+	  ccf.exe

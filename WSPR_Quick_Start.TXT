@@ -1,0 +1,110 @@
+                Quick Start Guide for WSPR v0.6
+                -------------------------------
+
+WSPR (pronounced "whisper") stands for "Weak Signal Propagation
+Reporter".  This program implements transmitting and receiving
+functions for a digital soundcard mode called "MEPT_JT", or simply
+"the WSPR mode".
+
+WSPR generates and receives signals using structured messages, strong
+forward error correction, and narrow-band 4-FSK modulation.  Its
+principal design goal is reliable copy at very low signal levels.  In
+practice it works well at signal-to-noise ratios down to about -27 dB
+in a reference bandwidth of 2500 Hz.
+
+
+QUICK START
+-----------
+
+1. Download WSPR from the WSJT home page,
+   http://physics.princeton.edu/pulsar/K1JT/ .
+
+2. Run the resulting executable file to install WSPR.  
+
+3. Start the program by double-clicking on its desktop icon.  
+
+4. Open the Setup -> Options menu and enter your callsign and
+   6-character grid locator.
+
+5. Enter the COM port number to be used for PTT control in the box labeled
+   PTT Port.  (For example, enter 1 if you will use COM1.)  Enter 0 
+   if you will use VOX control.
+
+6. If you have more than one sound card and do not wish to use the
+   Windows default sound card for WSPR, examine the list of sound
+   devices in the console window (the one with black background).
+   Enter the desired device numbers in the boxes labeled Audio In and
+   Audio Out.
+
+7. Enter your transmitter power in dBm in the appropriate Options box.
+
+8. On the main screen, enter your SSB transceiver dial frequency and
+   desired Tx frequency in MHz.  Your transceiver should be set to USB
+   mode.  (You can also set the Tx frequency by double-clicking with
+   the mouse on the waterfall display, after setting the Dial
+   frequency.)
+
+9. Click on "Rx" to receive only, on "Tx" to transmit only, or on the
+   desired average percentage of transmission cuycles.  In this case
+   the program will decide whether to transmit or receive during any
+   given two-minute interval, and will do so in such a way as to
+   randomize your T/R pattern.  This procedure will maximize your
+   chances of receiving any other WSPR station operating within a +/-
+   100 Hz range centered 1500 Hz above your dial frequency.
+
+10. Be sure that your computer clock is correct to +/- 1 second.  If
+    necessary you can make small adjustments by left- or right-clicking
+    on the "Dsec" label.
+
+11. WSPR will begin a Tx or Rx sequence at the start of each even UTC
+    minute.  The waterfall will update near the end of each Rx
+    sequence.
+
+12. Check the box "Upload spots" if your computer is connected to the
+    internet and you want your received spots uploaded to the WSPRnet
+    database.  For infomation on this excellent resource, go to
+    www.wsprnet.org.
+
+
+Decoded Output 
+-------------- 
+
+In normal operation WSPR displays a single line of output for each
+decoded signal, in the following format:
+
+Date    UTC  dB    DT    Freq   Drift
+-----------------------------------------------------
+080406 1248 -22   1.2  10.140225  -2  VE1RG FN76 30  
+080406 1248 -10   0.9  10.140246   1  VE1VDM FN85 25 
+080406 1250 -18   1.0  10.140244   1  KS7S DM41 30   
+080406 1252 -25   1.7  10.140212   1  W6SZ DM14 23   
+080406 1256 -25   0.7  10.140198   1  N2JR FM18 37   
+080406 1256 -15   1.2  10.140242   1  KS7S DM41 30   
+...
+
+The meanings of the colums are as follows:
+
+Date:   YYMMDD
+UTC:    HHMM
+dB:     Received S/N in the standard reference bandwidth of 2500 Hz.
+DT:     Offset between computer clocks at Tx and Rx stations.  
+Freq:   Measured frequency of received signal (MHz).
+Drift:  Drift of received signal over 2-minute transmission (Hz).
+
+Time offsets DT greater in magnitude than about +/- 2 s indicate 
+a significant timing error at the transmitter or receiver, or 
+possibly both.  For best performance your computer clock should
+be kept accurate to within +/- 1 s.
+
+Frequency drift of +/- 1 Hz over two minutes is scarcely 
+significant.  Drifts of +/- 2 s or larger should be corrected at
+the transmitter, for best performance.  (Of course, receiver
+drift could also contribute, but that case should be recognizable
+because all signals would appear to drift by the same amount.)
+
+Color coding is used in the bandmap to indicate how long it has 
+been since a particular station was last decoded.  Red calls have 
+been seen in the most recent 15 minutes, up to the last line of 
+decoded text.  Yellow callsigns are 15-30 minutes old, light
+gray 30-45 minutes, and darker grat 45-60 minutes.  After one
+hour calls are eliminated from the list.

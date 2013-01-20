@@ -1,0 +1,25 @@
+A very preliminary prototype of no-GUI WSPR
+Sivan Toledo 4X6IZ
+
+This prototype consist of:
+  wspr_nogui.py         This is a version of wspr.py with all the GUI calls stipped out
+  tkrep.py              replacement for 3 classes that are not just GUI related
+                        but come from Tkinter, the GUI library
+  WsprmModNoGui/*.py    __init__, advanced, g, hopping, iq, options, and palettes
+                        These are versions of the files in WsprMod but with the GUI stipped out
+                        
+To build and run this, run the makefile at least up to the point that it builds w.pyd.
+Copy WsprMod/w.pyd to WsprModNoGui (I am sure there's a way to avoid this, probably by setting
+PYTHONPATH or something like that).
+
+Now just run "python -O wspr_nogui.py" instead of running wspr.py.
+
+The code uses the same wspr.ini and hopping.ini, so running it should be equivalent to starting up WSPR
+and letting it run without touching the GUI.
+
+I tested it in hopping and no-hopping modes, but RX only. Bugs typically show up as remaining calls
+to GUI functions.
+
+This is just a prototype; it can't be supported this way. one way make this maintainable is to refactor
+the Python codes into a functional part (scheduling, reading files, etc) and a control part. The
+controller could be GUI or text-based.

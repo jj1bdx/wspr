@@ -1,0 +1,26 @@
+<HTML><HEAD><TITLE>Howto Install WSPR on Mac OS X Snow Leopard</TITLE></HEAD><BODY>
+<p><div align="center">Notes by John Nelson G4KLA<br>2 September 2011<br>
+(with acknowledgment to Joe Large W6CQZ for breaking the ground.)</div><br><br>
+<font size="1" face="Verdana">
+If you have not installed the basic infrastructure needed on the Mac then you should download WSJT code<br>
+svn co svn://svn.berlios.de/wsjt/trunk<br>
+and carry out the instructions in <b>Steps 1 to 3</b> in Wsjt_Howto_MacOSX_10.6.html.   If you have already done
+that, then the rest is easy.<br><br>
+
+You need to download WSPR source code.   Please visit the WSJT Home page at 
+<a href="http://www.physics.princeton.edu/pulsar/K1JT">http://www.physics.princeton.edu/pulsar/K1JT</a> for details on
+how to do this in the section: "Explicit Downloading Instructions".<br><br>
+
+<b>Step 4</b> Change to the directory containing the WSPR code and set the environment parameters:<br>
+setenv MACOSX_DEPLOYMENT_TARGET 10.6<br>
+setenv VERSIONER_PYTHON_PREFER_32_BIT yes<br>
+setenv CFLAGS "-arch i386"<br>
+setenv FFLAGS "-arch -386"<br>
+make -f Makefile_10.6<br><br>
+If you are successul then you can run the program with:<br>
+python wspr.py<br><br>
+Note that if you logout and return to the WSPR directory, remember to repeat the line:<br>
+setenv VERSIONER_PYTHON_PREFER_32_BIT yes<br><br>
+<em>Last point</em> If you find errors or omissions in this document, or improvements, or need help, please let me know.   g4kla at rmnjmn dot demon dot co dot uk<br>
+</p>
+</BODY></HTML>

@@ -1,0 +1,430 @@
+                        WSPR0 4.0 User's Guide
+                        ----------------------
+
+WSPR (pronounced "whisper") stands for "Weak Signal Propagation
+Reporter."  The WSPR software is designed for probing potential radio
+propagation paths using low-power beacon-like transmissions.  WSPR
+signals convey a callsign, Maidenhead grid locator, and power level
+using a compressed data format with strong forward error correction
+and narrowband 4-FSK modulation.  The protocol is effective at
+signal-to-noise ratios as low as –28 dB in a 2500 Hz bandwidth.
+
+WSPR 4.0 and WSPR0 4.0 introduce a slow mode, WSPR-15, using 15-minute
+T/R sequences instead of the 2-minute sequences standard in all
+previous versions of WSPR.  When confusion might otherwise arise, the
+original WSPR mode will be called WSPR-2.  WSPR-15 is intended for
+special-purpose use on the MF and LF bands, where it can offer a
+potential advantage of 9 dB in sensitivity.  Steady and stable WSPR-15
+signals are decodable at signal-to-noise ratios as low as -38 dB in
+a 2500 Hz reference bandwidth.
+
+Program wspr0 is a simple command-line version of WSPR with no frills,
+no graphics and no GUI.  Many advanced features of the full WSPR
+program, including I/Q mode, frequency hopping, and automatic
+uploading of spots to WSPRnet.org are not included.  If you need these
+features, use the full GUI version of WSPR.  wspr0 is intended for
+specialized applications where easy compilation and execution from the
+command line are advantageous.
+
+QUICK START
+-----------
+
+wspr0 is installed automatically as part of the WSPR 4.0 package.  You
+can download and install it independently from the URL
+http://physics.princeton.edu/pulsar/K1JT/wspr0.exe .  Copy the
+executable file into a suitable directory such as C:\wspr0.  
+
+
+wspr0 is invoked by typing its name followed by optional arguments.
+Open a command-prompt window, CD into to that directory, and type
+"wspr0" (with no accompanying arguments) to see the following summary
+and examples of program usage:
+
+-----------------------------------------------------------------------
+C:\WPSR0> wspr0
+  
+wspr0 -- version 4.0
+  
+Usage: wspr0 [options...] [files...]
+  
+Options:
+  
+Transmit/Receive status:
+       -r   Run in 100% Rx mode (default).
+       -t   Run in 100% Tx mode. 
+       -b   Pseudo-random selection of Rx and Tx cycles.
+  
+By default, the callsign, grid locator, and power level
+for the transmitted message are taken from file wspr0.def.
+These may be overridden by using options -c, -g, -d:
+       -c <call>
+       -g <grid>
+       -d <dBm>
+  
+Frequencies:
+       -f x   Transceiver dial frequency is x
+       -F x   Center frequency of transmission is x
+  
+       -m     Run in WSPR-15 mode (default is WSPR-2)
+       -n n   Number of files to be generated
+       -o outfile   Output filename, overrides default nnnnnn.
+       -p n   PTT port
+       -P n   Transmitting percent (default=25)
+       -s x   SNR of generated data, dB (default 100)
+       -x     Generate wavefile(s) with 10 signals
+       -X     Generate list of Tx tones
+  
+Examples:
+       wspr0 -t                      #Transmit default message
+       wspr0 -t -s -22 -o test.wav   #Generate a test file
+       wspr0 -t -s -25 -n 3          #Generate three test files
+       wspr0 -b                      #Randomized T/R sequences
+       wspr0 -f 14.0956              #Rx only, on 20m
+       wspr0 00001.wav 00002.wav     #Decode two files
+  
+For more information see:
+       physics.princeton.edu/pulsar/K1JT/WSPR0_4.0_Users_Guide.txt
+-----------------------------------------------------------------------
+
+In transmit mode there can be up to 9 command-line arguments after the
+program name.  The arguments have the following meanings:
+
+1. Tx    - signifies transmit mode
+2. f0    - suppressed carrier frequency or "dial frequency" (MHz)
+3. ftx   - center frequency of generated WSPR signal (MHz)
+4. nport - COM port number for PTT control (0 to disable PTT control)
+5. call  - transmitted callsign
+6. grid  - transmitted 4-character locator
+7. dbm   - transmitter power (dBm)
+8. snr   - generated S/N (for off-line testing only)
+9. file  - output file name, or number of files to generate
+
+On-the-air transmissions use only arguments 1 through 7; arguments 8
+and 9 are used for generating wave files for local tests.
+
+In receive mode the first two command-line arguments must be "Rx" and
+the dial frequency f0, in MHz.  Additional arguments are treated as
+file names, for local testing purposes.
+
+A third operating mode, the "T/R" mode, allows one to specify the
+percentage of 2-minute time slots to devote to transmitting.  All
+remaining time slots will be used for receiving.  The percentage is
+defined in a statistical manner; specific choices of Tx and Rx
+intervals are randomized.  In this way you can put a signal on the air
+for others to copy, and at the same time monitor the band to keep
+track of who else is on.  In T/R mode the first 7 command-line
+arguments have the same meanings as in Tx mode; the 8th argument
+specifies the percent of 2-minute sequences you want devoted to
+transmission.  In the example given above, 25% of 2-minute sequences
+will be transmissions, while the remaining 75% will be used for
+reception.
+
+
+NORMAL OPERATION
+----------------
+
+Set your transceiver to USB mode and the dial frequency 1500 Hz below
+the center of the desired 200 Hz band for reception.  By convention, 
+the dial frequencies used for most WSPR activity are as follows:
+
+Band  Dial Freq
+(m)    (MHz)
+---------------
+600    0.5024
+160    1.8366
+ 80    3.5926
+ 60    5.2872
+ 40    7.0386
+ 30   10.1387
+ 20   14.0956
+ 17   18.1046
+ 15   21.0946
+ 12   24.9246
+ 10   28.1246
+  6   50.2930 
+  4   70.0286
+  2  144.4890
+
+Be sure that your computer clock is accurate to within a second or so.
+In case your computer has more than one sound device, please note that
+wspr0 uses the operating system's default sound system.
+
+TRANSMIT: To transmit, type in a command similar to the first example
+given above.  The third argument is your desired signal frequency.  I
+use serial port COM 1 for PTT control.  Therefore, to transmit on
+10.140150 with power 1 W (30 dBm) I would enter the command
+
+C:\wspr0> wspr0 Tx 10.1387 10.140150 1 K1JT FN20 30
+
+Transmission will start at the start of the next even-numbered UTC
+minute, and will be repeated on even minutes until you stop it
+manually.  You can type CTRL+C to terminate program execution.
+
+
+RECEIVE: To receive, type in a command like the fourth example above.
+The second argument is the dial frequency, 1500 Hz below the center of
+the 200 Hz received passband.
+
+C:\wspr0> wspr0 Rx 10.1387
+
+Reception will begin at the start of the next even minute, and will
+continue until you terminate it manually by typing CTRL+C.
+
+
+T/R MODE: Type in a command line like the third example above:
+
+C:\wspr0> wspr0 T/R 10.1387 10.140150 1 K1JT FN20 30 25
+
+At the start of the next even minute the program will start a series
+of transmission or reception intervals.  A random number generator
+will determine whether a particular interval will be Tx or Rx; on
+average, the percentage of transmission intervals will be approach the
+number specified by argument #8.
+
+
+LOCAL TESTS BETWEEN TWO COMPUTERS
+---------------------------------
+
+Be sure that both computer clocks are accurate to within a second or
+so.
+
+On the "transmit" computer, to send WSPR data at S/N -26 dB, type
+something like this:
+
+C:\wspr0> wspr0 Tx 10.1387 10.140080 0 K1JT FN20 20 -26
+
+The frequencies are arbitrary, but the frequency difference will
+determine the audio tone generated.  Transmission will start on the
+next even minute, and will be repeated on even minutes until you stop
+it manually.  (You can type CTRL+C to terminate program execution.)
+
+On the "receive" computer, type in a command like
+
+C:\wspr0> wspr0 Rx 10.1387
+
+The frequency is arbitrary.  Reception will begin at the top of the
+next even minute, and will continue until terminated manually.
+
+You can also do this test with a single computer.  Just open two
+command windows, one for Tx and one for Rx.  Use an audio cable to
+patch soundcard output into soundcard input, or simply use the speaker
+to "transmit" and the computer mike to "receive".
+
+LOCAL TESTS WITH ONE COMPUTER
+-----------------------------
+
+You can generate a set of three test files at specified S/N level by
+entering a command like this:
+
+C:\wspr0> wspr0 Tx 10.1387 10.140200 0 K1JT FN20 30 -26 3
+
+These files may then be "received" and decoded by entering this
+command:
+
+C:\wspr0> wspr0 Rx 10.1387 00001.wav 00002.wav 00003.wav
+
+
+GENERATING A MULTI-SIGNAL TEST FILE
+-----------------------------------
+
+If you set snr = 10 on the command line, wspr0 will generate a file
+containing ten distinct signals at 20 Hz intervals, with progressive
+time offsets of 0.1 s relative to the first one, and with S/N -21,
+-22, ... -30 dB.  This feature was designed for testing the
+multi-signal decoder.  Here is a complete example of its use:
+
+C:\wspr0> wspr0 Tx 10.1387 10.140200 0 K1JT FN20 30 10 test.wav
+  10.138700  10.140200  10.0  K1JT FN20 30            test.wav
+
+C:\wspr0> wspr0 Rx 10.1387 test.wav
+ UTC        Sync dB   DT    Freq       Message
+--------------------------------------------------
+test         12 -21  0.0  10.140010  K1JT FN20 30          
+test         10 -22  0.1  10.140030  K1JT FN20 30          
+test          9 -22  0.2  10.140050  K1JT FN20 30          
+test          9 -24  0.3  10.140070  K1JT FN20 30          
+test          7 -25  0.4  10.140090  K1JT FN20 30          
+test          5 -25  0.5  10.140110  K1JT FN20 30          
+test          5 -26  0.6  10.140130  K1JT FN20 30          
+test          4 -28  0.6  10.140150  K1JT FN20 30          
+test          3 -29  0.8  10.140170  K1JT FN20 30          
+test          2 -29  0.8  10.140190  K1JT FN20 30          
+
+
+GENERATING A LIST OF TX TONE FREQUENCIES
+---------------------------------------- 
+
+As an aid to those wishing to build a hardware-based or
+microprocessor-based transmitter for WSPR signals, you can request
+the program to output the list of tone frequencies corresponding to
+the WSPR signal carrying a particular message.  To do this, simply
+set snr to 11 on the command line.  Shown below is a complete example
+of this usage.  The table has one line for each of the 162 symbols in
+an WSPR transmission.  Column 2 gives the tone number (0-3) for
+each 4-FSK symbol; column 3 gives the tone frequency in Hz.  Each tone
+should last for 8192/12000 = 0.6827 seconds, and transitions between
+tones should be done in a phase-continuous manner.
+
+C:\wspr0> wspr0 Tx 10.1387 10.140200 0 K1JT FN20 30 11
+  1  3  1502.197
+  2  3  1502.197
+  3  2  1500.732
+  4  0  1497.803
+  5  2  1500.732
+  6  0  1497.803
+  7  2  1500.732
+  8  2  1500.732
+  9  1  1499.268
+ 10  2  1500.732
+ 11  2  1500.732
+ 12  2  1500.732
+ 13  3  1502.197
+ 14  3  1502.197
+ 15  1  1499.268
+ 16  0  1497.803
+ 17  2  1500.732
+ 18  2  1500.732
+ 19  3  1502.197
+ 20  2  1500.732
+ 21  0  1497.803
+ 22  3  1502.197
+ 23  0  1497.803
+ 24  1  1499.268
+ 25  1  1499.268
+ 26  3  1502.197
+ 27  1  1499.268
+ 28  2  1500.732
+ 29  0  1497.803
+ 30  2  1500.732
+ 31  2  1500.732
+ 32  0  1497.803
+ 33  0  1497.803
+ 34  2  1500.732
+ 35  1  1499.268
+ 36  2  1500.732
+ 37  0  1497.803
+ 38  1  1499.268
+ 39  2  1500.732
+ 40  3  1502.197
+ 41  2  1500.732
+ 42  2  1500.732
+ 43  2  1500.732
+ 44  0  1497.803
+ 45  0  1497.803
+ 46  0  1497.803
+ 47  3  1502.197
+ 48  2  1500.732
+ 49  1  1499.268
+ 50  3  1502.197
+ 51  2  1500.732
+ 52  0  1497.803
+ 53  3  1502.197
+ 54  3  1502.197
+ 55  0  1497.803
+ 56  3  1502.197
+ 57  0  1497.803
+ 58  0  1497.803
+ 59  0  1497.803
+ 60  1  1499.268
+ 61  1  1499.268
+ 62  0  1497.803
+ 63  3  1502.197
+ 64  0  1497.803
+ 65  2  1500.732
+ 66  0  1497.803
+ 67  0  1497.803
+ 68  3  1502.197
+ 69  3  1502.197
+ 70  0  1497.803
+ 71  3  1502.197
+ 72  2  1500.732
+ 73  3  1502.197
+ 74  0  1497.803
+ 75  1  1499.268
+ 76  0  1497.803
+ 77  1  1499.268
+ 78  0  1497.803
+ 79  0  1497.803
+ 80  3  1502.197
+ 81  2  1500.732
+ 82  2  1500.732
+ 83  1  1499.268
+ 84  0  1497.803
+ 85  1  1499.268
+ 86  1  1499.268
+ 87  0  1497.803
+ 88  2  1500.732
+ 89  0  1497.803
+ 90  1  1499.268
+ 91  1  1499.268
+ 92  2  1500.732
+ 93  3  1502.197
+ 94  0  1497.803
+ 95  3  1502.197
+ 96  2  1500.732
+ 97  2  1500.732
+ 98  2  1500.732
+ 99  3  1502.197
+100  2  1500.732
+101  2  1500.732
+102  2  1500.732
+103  2  1500.732
+104  2  1500.732
+105  1  1499.268
+106  0  1497.803
+107  0  1497.803
+108  1  1499.268
+109  2  1500.732
+110  0  1497.803
+111  3  1502.197
+112  1  1499.268
+113  1  1499.268
+114  2  1500.732
+115  1  1499.268
+116  3  1502.197
+117  2  1500.732
+118  0  1497.803
+119  1  1499.268
+120  1  1499.268
+121  2  1500.732
+122  1  1499.268
+123  2  1500.732
+124  0  1497.803
+125  2  1500.732
+126  1  1499.268
+127  1  1499.268
+128  1  1499.268
+129  2  1500.732
+130  0  1497.803
+131  2  1500.732
+132  2  1500.732
+133  0  1497.803
+134  3  1502.197
+135  2  1500.732
+136  3  1502.197
+137  2  1500.732
+138  0  1497.803
+139  3  1502.197
+140  1  1499.268
+141  0  1497.803
+142  0  1497.803
+143  2  1500.732
+144  2  1500.732
+145  2  1500.732
+146  2  1500.732
+147  0  1497.803
+148  3  1502.197
+149  3  1502.197
+150  2  1500.732
+151  1  1499.268
+152  2  1500.732
+153  3  1502.197
+154  1  1499.268
+155  0  1497.803
+156  2  1500.732
+157  2  1500.732
+158  1  1499.268
+159  3  1502.197
+160  2  1500.732
+161  2  1500.732
+162  2  1500.732

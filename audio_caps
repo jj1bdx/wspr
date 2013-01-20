@@ -1,0 +1,12 @@
+ 0    0    2       1       0  USB Audio DAC: USB Audio (hw:0,0)
+ 1    2    2       0       0  USB Audio CODEC: USB Audio (hw:1,0)
+ 2    2    2       0       0  HDA Intel PCH: CONEXANT Analog (hw:2,0)
+ 3    0    2       1       0  HDA Intel PCH: Conexant Digital (hw:2,1)
+ 4    0    8       1       0  HDA Intel PCH: HDMI 0 (hw:2,3)
+ 5    0  128       1       0  sysdefault
+ 6    0    2       1       0  front
+ 7    0    2       1       0  surround40
+ 8    0    2       1       0  iec958
+ 9    0    2       1       0  spdif
+10    0    2       1       0  dmix
+11    0  128       1       0  default

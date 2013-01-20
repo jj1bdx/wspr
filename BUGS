@@ -1,0 +1,104 @@
+$Id:$
+
+Please make sure you have ulimit -c not set to 0, if it is set to
+0 we will not get a core file and that makes our debugging job
+harder. i.e. ulimit -c unlimited please.
+
+If you have a problem we need the following:
+
+1) The name of the OS, distribution
+2) What mode wsjt was in, what were you doing? Does it just immediately
+   core when you run it?
+3) What version of g95 and/or gfortran you have?
+   Sending a copy of the config.log would tell us all that.
+
+   Heres a sample from a FreeBSD 7.0 system.
+...
+configure:2827: checking for g95
+configure:2843: found /usr/local/bin/g95
+configure:2854: result: g95
+configure:2884: checking for Fortran 77 compiler version
+configure:2892: g95 --version >&5
+G95 (GCC 4.0.3 (g95 0.91!) May 19 2008)
+Copyright (C) 2002-2005 Free Software Foundation, Inc.
+...
+    So now we know which compiler it is.
+4) You can get an error in several ways, it can be an error noticed
+   by the python interpreter, it can be a error noticed by the fortran
+   libraries, it can be some other error.
+
+Here are several examples.
+
+a) I messed up a file on purpose here:
+ diff -u gcom2.f90.orig gcom2.f90
+--- gcom2.f90.orig      2008-06-07 11:26:16.000000000 -0400
++++ gcom2.f90   2008-06-07 11:26:20.000000000 -0400
+@@ -75,7 +75,7 @@
+ integer ndf            !Measured DF in Hz                       Decoder
+ real ss1               !Magenta curve for JT65 shorthand msg    Decoder
+ real ss2               !Orange curve for JT65 shorthand msg     Decoder
+-character mycall*12    !My call sign                            GUI
++character mycall*1    !My call sign                            GUI
+ character hiscall*12   !His call sign                           GUI
+ character hisgrid*6    !His grid locator                        GUI
+
+This results in a run time error in python:
+
+...
+0-th dimension must be fixed to 1 but got 12
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.5/lib-tk/Tkinter.py", line 1403, in __call__
+    return self.func(*args)
+  File "/usr/local/lib/python2.5/lib-tk/Tkinter.py", line 498, in callit
+    func(*args)
+  File "wsjt.py", line 1831, in update
+    Audio.gcom2.mycall=(options.MyCall.get()+'            ')[:12]
+SystemError: error return without exception set
+...
+
+b) I changed the size of iwave in gencw.f using gfortran42
+diff gencw.f.orig gencw.f 
+8c8
+<       integer*2 iwave(NMAX)
+---
+>       integer*2 iwave(1)
+   and sent some cw
+
+This results in a fortran runtime error as noted by gfortran: 
+Array reference out of bounds for array 'iwave', upper bound of dimension 1 exceeded (in file 'gencw.f', at line 81)
+
+c) Same change to iwave in gencw.f using g95 and sent some cw
+
+This results in a fortran runtime error as noted by g95:
+At line 81 of file gencw.f
+Traceback: (Innermost first)
+   Called from line 0 of file zsh: segmentation fault (core dumped)  python wsjt.py
+
+If you have a core file, please run gdb bt on it. It might have further
+information we can use. Don't be afraid to send us the entire log if
+you don't understand what bits we need. In this case, I have only
+shown the bit that the developers need to debug this, provided you
+mentioned the g95 runtime error as well. From the g95 runtime error
+we know it was in gencw.f at line 81. Sometimes the core does not
+occur in the fortran code at all, so the gdb bt will tell us that as well.
+
+gdb `which python` python.core
+...
+loads of load information elided
+(gdb) bt
+#0  0x28250171 in strlen () from /lib/libc.so.7
+#1  0x29393581 in _g95_st_printf (format=0x293ad048 "s\n")
+    at runtime/error.c:135
+#2  0x293937c6 in _g95_show_locus () at runtime/error.c:278
+#3  0x2939390c in _g95_runtime_error (
+    message=0xbf7c523c "Array element out of bounds: 2 in (1:1), dim=1")
+    at runtime/error.c:323
+#4  0x29391b03 in _g95_array_oob2 (value=2, dim=1, lbound=1, ubound=1)
+    at runtime/array.c:604
+...
+elided
+
+Hope this helps.
+
+- 73 Diane VA3DB

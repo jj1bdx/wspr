@@ -1,0 +1,14 @@
+Index: Makefile.in
+===================================================================
+--- Makefile.in	(revision 2963)
++++ Makefile.in	(working copy)
+@@ -53,7 +53,8 @@
+ 	grid2deg.o deg2grid.o nhash.o nchar.o wspr0_rx.o getrms.o \
+ 	mept162.o mix162.o spec162.o sync162.o twkfreq.o \
+ 	decode162.o getutc.o set.o xfft.o four2a.o flat3.o ps162.o \
+-	pctile.o fchisq.o db.o fano232.o sort.o ssort.o ccf2.o
++	pctile.o fchisq.o db.o fano232.o sort.o ssort.o ccf2.o \
++	wspr0init.o
+ 
+ OBJS3 = WSPRcode.o deg2grid.o pack50.o packcall.o packgrid.o \
+ 	unpack50.o unpackcall.o unpackgrid.o nchar.o \
