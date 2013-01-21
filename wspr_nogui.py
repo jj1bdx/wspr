@@ -89,6 +89,7 @@ mrudir=os.getcwd()
 ndbm0=-999
 ncall=0
 ndebug=IntVar()
+ndgain=IntVar()
 nin0=0
 nout0=0
 newdat=1
@@ -937,7 +938,7 @@ def update():
         nreject=int(w.acom1.reject)
         t='Bal: %6.4f  Pha: %6.1f      >%3d dB' % (gain,phdeg,nreject)
         iq.lab1.configure(text=t)
-        ndb=int(w.acom1.xdb1-41.0)
+        ndb=int(w.acom1.xdb1-41.0+ndgain.get())
         if ndb<-30: ndb=-30
         dbave=w.acom1.xdb1
         if iq.iqmode.get():
@@ -1330,7 +1331,7 @@ def update_nogui():
         t='Bal: %6.4f  Pha: %6.1f      >%3d dB' % (gain,phdeg,nreject)
         #iq.lab1.configure(text=t)
         #print t
-        ndb=int(w.acom1.xdb1-41.0)
+        ndb=int(w.acom1.xdb1-41.0+ndgain.get())
         if ndb<-30: ndb=-30
         dbave=w.acom1.xdb1
         if iq.iqmode.get():
@@ -1341,7 +1342,7 @@ def update_nogui():
         else:
             t='Rx Noise: %3d  dB' % (ndb,)
         bg='gray85'
-        #r=SUNKEN
+	#r=SUNKEN
         #smcolor="green"
         #if w.acom1.receiving:
         #    if ndb>10 and ndb<=20:
@@ -1354,6 +1355,7 @@ def update_nogui():
         #    r=FLAT
         #msg1.configure(text=t,bg=bg,relief=r)
         print t
+	dbave = dbave + ndgain.get()
         if not receiving: dbave=0
         #sm.updateProgress(newValue=dbave,newColor=smcolor)
 
@@ -1621,6 +1623,7 @@ def save_params():
     f.write("Rig " + str(t.replace("\t","#"))[:46] + "\n")
     f.write("Nsave " + str(nsave.get()) + "\n")
     f.write("PctTx " + str(ipctx.get()) + "\n")
+    f.write("DGain " + str(ndgain.get()) + "\n")
     f.write("Upload " + str(upload.get()) + "\n")
     f.write("Idle " + str(idle.get()) + "\n")
     f.write("Debug " + str(ndebug.get()) + "\n")
@@ -1674,6 +1677,7 @@ isync=1
 iband.set(6)
 idle.set(1)
 ipctx.set(20)
+ndgain.set(0)
 
 #---------------------------------------------------------- Process INI file
 try:
@@ -1697,6 +1701,7 @@ def readinit():
             elif key == 'MyGrid': options.MyGrid.set(value)
             elif key == 'CWID': advanced.idint.set(value)
             elif key == 'dBm': options.dBm.set(value)
+            elif key == 'DGain': ndgain.set(value)
             elif key == 'PctTx': ipctx.set(value)
             elif key == 'PttPort': options.PttPort.set(value)
             elif key == 'CatPort': options.CatPort.set(value)
