@@ -1,7 +1,9 @@
+*.dll
+*.exe
+*.a
 fmt.ini
 WSPR.INI
 pixmap.dat
 wspr.log
-*.dll
-*.exe
-*.a
+decoded.txt
+wspr.ini
