@@ -15,7 +15,7 @@
     sudo apt-get install \
         python-dev gfortran python-pmw python-numpy portaudio19-dev \
         libsamplerate0-dev python-imaging-tk libfftw3-dev \
-        libhamlib-util2
+        libhamlib-utils
 
 ## Building procedure
 
@@ -26,6 +26,6 @@
 ## Required permission for the serial/USB control ports
 
 * Adding the user to the group `dialout` is required to run `rigctl` for the serial ports
-* `rigctl` is installed by `libhamlib-util2`
+* `rigctl` is installed by `libhamlib-utils`
 
 [end of memorandum]
