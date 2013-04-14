@@ -1,4 +1,4 @@
-# WSPR 4.0 r2874 build kit for Lubuntu 12.10 x86\_64
+# WSPR 4.0 r2874 build kit for Lubuntu 12.10 i386 and x86\_64
 
 * WSPR by Joe Taylor, K1JT: <http://physics.princeton.edu/pulsar/K1JT/wspr.html>
 * Based on WSPR 4.0 r2963
@@ -18,6 +18,8 @@
         libhamlib-utils
 
 ## Building procedure
+
+(change `/usr/lib/x86_64-linux-gnu` to `/usr/lib/i386-linux_gnu` for building on a 32bit environment)
 
     make clean distclean
     ./configure --with-portaudio-include-dir=/usr/include --with-portaudio-lib-dir=/usr/lib/x86_64-linux-gnu
