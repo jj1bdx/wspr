@@ -1,5 +1,5 @@
-#------------------------------------------------------------------------ WSPR
-# $Date: 2008-03-17 08:29:04 -0400 (Mon, 17 Mar 2008) $ $Revision: 2874 $
+#----------------------------------------------------------------------- WSPR
+# $Date: 2008-03-17 08:29:04 -0400 (Mon, 17 Mar 2008) $ $Revision: 3015 $
 #
 # WSPR (pronounced "whisper") stands for "Weak Signal
 # Propagation Reporter".  The program generates and decodes
@@ -51,7 +51,7 @@ import thread
 import webbrowser
 
 root = Tk()
-Version="4.0 r" + "$Rev: 2874 $"[6:-2]
+Version="4.0 r" + "$Rev: 3015 $"[6:-2]
 print "******************************************************************"
 print "WSPR Version " + Version + ", by K1JT"
 print "Run date:   " + time.asctime(time.gmtime()) + " UTC"

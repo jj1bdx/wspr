@@ -17,7 +17,7 @@ CPPFLAGS += ${DEFS} -I.
 # WSPR specific Fortran flags
 FFLAGS += -fbounds-check
 
-all:	wspr wsprcode fmt fmtave fcal fmeasure hftoa ccf wwv
+all:	wspr wsprcode fmt fmtave fcal fmeasure wspr0 hftoa ccf wwv
 
 build:	wspr
 
@@ -53,8 +53,7 @@ OBJS1 = wspr0.o wspr0_tx.o sound.o ptt_unix.o gmtime2.o wfile5.o \
 	grid2deg.o deg2grid.o nhash.o nchar.o wspr0_rx.o getrms.o \
 	mept162.o mix162.o spec162.o sync162.o twkfreq.o \
 	decode162.o getutc.o set.o xfft.o four2a.o flat3.o ps162.o \
-	pctile.o fchisq.o db.o fano232.o sort.o ssort.o ccf2.o \
-	wspr0init.o
+	pctile.o fchisq.o db.o fano232.o sort.o ssort.o ccf2.o wspr0init.o
 
 OBJS3 = WSPRcode.o deg2grid.o pack50.o packcall.o packgrid.o \
 	unpack50.o unpackcall.o unpackgrid.o nchar.o \
@@ -118,8 +117,8 @@ fcal: fcal.f90
 fmeasure: fmeasure.f90
 	$(FC) -o fmeasure fmeasure.f90
 
-#wspr0:	$(OBJS1)
-#	$(FC) -o wspr0 $(LDFLAGS) $(FFLAGS) $(OBJS1) -lportaudio -lfftw3f
+wspr0:	$(OBJS1)
+	$(FC) -o wspr0 $(LDFLAGS) $(FFLAGS) $(OBJS1) -lportaudio -lfftw3f
 
 OBJS4 = hftoa.o write_wav.o sound.o fil1.o averms.o getutc.o gmtime2.o
 
@@ -168,7 +167,7 @@ deb: wspr.py WsprMod/w.so WsprMod/g.py WsprMod/__init__.py \
 clean:
 	${RM} -f *.o *.pyc *.pyo WsprMod/*.pyc WsprMod/*.pyo \
 	    WsprMod/w.so WsprMod/*.so w.so *~ \
-	    wsprcode fmt fmtave fcal fmeasure 
+	    wsprcode fmt fmtave fcal fmeasure wspr0
 	${RM} -rf build/
 
 distclean:
