@@ -1,14 +1,14 @@
-# WSPR 4.0 r2874 build kit for Lubuntu 12.10 i386 and x86\_64
+# WSPR 4.0 r3015 build kit for Lubuntu 12.10 x86\_64
 
 * WSPR by Joe Taylor, K1JT: <http://physics.princeton.edu/pulsar/K1JT/wspr.html>
-* Based on WSPR 4.0 r2963
+* Based on WSPR 4.0 r3015
 * SVN source URL: `svn://svn.berlios.de/wsjt/branches/wspr` 
 * Edited and tested by Kenji Rikitake, JJ1BDX
 
 ## Notes
 
+* See `FIX-Ubuntu-13.04/` for the Python PIL bug on Ubuntu 13.04
 * Windows-specific `.dll` and `.exe` files removed
-* `wspr0` building script removed from `Makefile.in`
 
 ## Required libraries/tools to build
 

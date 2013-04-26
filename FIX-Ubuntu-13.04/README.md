@@ -19,5 +19,11 @@ The following bug is found on Ubuntu 13.04:
 ## How to fix
 
 Replace `/usr/lib/python2.7/dist-packages/PIL/ImageDraw.py` by the file in this directory, which is copied from <https://github.com/python-imaging/Pillow/blob/1f41e25b4feec620ad32e8b3a9b28466f63b3afe/PIL/ImageDraw.py>
+
+Note: do the following after copying the files
+
+            cd /usr/lib/python2.7/dist-packages/PIL/
+            chmod 0644 ImageDraw.py
+            rm ImageDraw.pyc
         
 [end of memorandum]
