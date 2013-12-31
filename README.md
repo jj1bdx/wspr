@@ -1,5 +1,7 @@
 # WSPR 4.0 r3015 build kit for Lubuntu 12.10 x86\_64
 
+*Note: This software is no longer maintained.*
+
 * WSPR by Joe Taylor, K1JT: <http://physics.princeton.edu/pulsar/K1JT/wspr.html>
 * Based on WSPR 4.0 r3015
 * SVN source URL: `svn://svn.berlios.de/wsjt/branches/wspr` 
